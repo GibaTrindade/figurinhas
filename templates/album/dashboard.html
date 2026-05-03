@@ -27,6 +27,17 @@
 
 <div class="d-grid gap-2 mt-3">
     <a class="btn btn-primary btn-lg" href="{% url 'selecoes_list' %}"><i class="bi bi-shield me-2"></i>Ver selecoes</a>
+    <div class="row g-2">
+        <div class="col-4">
+            <a class="btn btn-outline-primary btn-lg w-100" href="{% url 'secao_especial_detail' 'FWC' %}">FWC</a>
+        </div>
+        <div class="col-4">
+            <a class="btn btn-outline-danger btn-lg w-100" href="{% url 'secao_especial_detail' 'CC' %}">CC</a>
+        </div>
+        <div class="col-4">
+            <a class="btn btn-outline-warning btn-lg w-100" href="{% url 'secao_especial_detail' 'PAN' %}">Panini</a>
+        </div>
+    </div>
     <a class="btn btn-outline-danger btn-lg" href="{% url 'figurinhas_faltantes' %}"><i class="bi bi-x-circle me-2"></i>Ver faltantes</a>
     <a class="btn btn-outline-warning btn-lg" href="{% url 'figurinhas_repetidas' %}"><i class="bi bi-arrow-repeat me-2"></i>Ver repetidas</a>
     <a class="btn btn-outline-secondary btn-lg" href="{% url 'trocas_list' %}"><i class="bi bi-people me-2"></i>Trocas</a>

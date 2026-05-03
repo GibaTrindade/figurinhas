@@ -32,10 +32,26 @@ class CategoriaFigurinha(models.Model):
         return self.nome
 
 
+class SecaoEspecial(models.Model):
+    nome = models.CharField(max_length=80)
+    codigo_album = models.CharField(max_length=8, unique=True)
+    cor = models.CharField(max_length=20, default='#245b3d')
+    ordem = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['ordem', 'nome']
+        verbose_name = 'Secao especial'
+        verbose_name_plural = 'Secoes especiais'
+
+    def __str__(self):
+        return self.nome
+
+
 class Figurinha(models.Model):
     numero = models.PositiveIntegerField(unique=True)
     nome = models.CharField(max_length=120)
-    selecao = models.ForeignKey(Selecao, on_delete=models.CASCADE, related_name='figurinhas')
+    selecao = models.ForeignKey(Selecao, on_delete=models.CASCADE, related_name='figurinhas', null=True, blank=True)
+    secao_especial = models.ForeignKey(SecaoEspecial, on_delete=models.CASCADE, related_name='figurinhas', null=True, blank=True)
     categoria = models.ForeignKey(CategoriaFigurinha, on_delete=models.PROTECT, related_name='figurinhas')
     descricao = models.TextField(blank=True)
     especial = models.BooleanField(default=False)
@@ -48,6 +64,14 @@ class Figurinha(models.Model):
 
     def __str__(self):
         return f'{self.numero} - {self.nome}'
+
+    @property
+    def codigo_album(self):
+        if self.selecao_id:
+            return self.selecao.codigo_album
+        if self.secao_especial_id:
+            return self.secao_especial.codigo_album
+        return ''
 
     def get_absolute_url(self):
         return reverse('figurinha_detail', args=[self.pk])

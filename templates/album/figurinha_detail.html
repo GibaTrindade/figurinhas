@@ -4,9 +4,16 @@
 
 {% block content %}
 <header class="mb-3">
-    <a class="small text-decoration-none" href="{% url 'selecao_detail' figurinha.selecao.pk %}"><i class="bi bi-chevron-left"></i> {{ figurinha.selecao.nome }}</a>
+    {% if figurinha.selecao %}
+        <a class="small text-decoration-none" href="{% url 'selecao_detail' figurinha.selecao.pk %}"><i class="bi bi-chevron-left"></i> {{ figurinha.selecao.nome }}</a>
+    {% elif figurinha.secao_especial %}
+        <a class="small text-decoration-none" href="{% url 'secao_especial_detail' figurinha.secao_especial.codigo_album %}"><i class="bi bi-chevron-left"></i> {{ figurinha.secao_especial.nome }}</a>
+    {% endif %}
     <h1 class="h4 mb-1 mt-2">{{ figurinha.numero }} - {{ figurinha.nome }}</h1>
-    <p class="text-muted mb-0">{{ figurinha.selecao.nome }} · {{ figurinha.categoria.nome }}</p>
+    <p class="text-muted mb-0">
+        {% if figurinha.selecao %}{{ figurinha.selecao.nome }}{% else %}{{ figurinha.secao_especial.nome }}{% endif %}
+        · {{ figurinha.categoria.nome }}
+    </p>
 </header>
 
 <div class="card app-card status-{{ card.status }} mb-3">

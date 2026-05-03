@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ secao.nome }} | Album Copa 2026{% endblock %}
+
+{% block content %}
+<header class="mb-3">
+    <a class="small text-decoration-none" href="{% url 'dashboard' %}"><i class="bi bi-chevron-left"></i> Inicio</a>
+    <div class="special-section-header mt-2" style="--special-color: {{ secao.cor }}">
+        <div class="special-section-code">{{ secao.codigo_album }}</div>
+        <div>
+            <h1 class="h4 mb-1">{{ secao.nome }}</h1>
+            <p class="text-muted mb-0">{{ tenho }} de {{ total }} figurinhas</p>
+        </div>
+    </div>
+</header>
+
+{% include 'album/partials/_progresso_card.html' with titulo='Progresso da secao' percentual=percentual %}
+
+<div class="d-flex gap-2 overflow-auto py-3 album-toolbar">
+    <a class="btn btn-sm {% if status_atual == 'todas' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?status=todas">Todas</a>
+    <a class="btn btn-sm {% if status_atual == 'tenho' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?status=tenho">Coladas</a>
+    <a class="btn btn-sm {% if status_atual == 'faltam' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?status=faltam">Faltam</a>
+    <a class="btn btn-sm {% if status_atual == 'repetidas' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?status=repetidas">Repetidas</a>
+</div>
+
+<div class="album-grid">
+    {% for card in cards %}
+        {% include 'album/partials/_album_slot.html' %}
+    {% empty %}
+        <div class="card app-card"><div class="card-body text-center text-muted">Nenhuma figurinha nessa secao.</div></div>
+    {% endfor %}
+</div>
+{% endblock %}

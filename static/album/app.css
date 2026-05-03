@@ -176,6 +176,24 @@ textarea.form-control {
     white-space: nowrap;
 }
 
+.special-section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.special-section-code {
+    width: 58px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: var(--special-color);
+    color: #fff;
+    font-weight: 900;
+    box-shadow: 0 4px 12px rgba(20, 32, 55, .16);
+}
+
 .min-w-0 {
     min-width: 0;
 }

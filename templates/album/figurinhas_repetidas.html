@@ -17,7 +17,10 @@
                         <a class="fw-bold text-dark text-decoration-none" href="{% url 'figurinha_detail' card.figurinha.pk %}">
                             {{ card.figurinha.numero }} - {{ card.figurinha.nome }}
                         </a>
-                        <div class="small text-muted">{{ card.figurinha.selecao.nome }} · {{ card.figurinha.categoria.nome }}</div>
+                        <div class="small text-muted">
+                            {% if card.figurinha.selecao %}{{ card.figurinha.selecao.nome }}{% else %}{{ card.figurinha.secao_especial.nome }}{% endif %}
+                            · {{ card.figurinha.categoria.nome }}
+                        </div>
                     </div>
                     <div class="text-end">
                         <div class="fw-bold">Qtd {{ card.quantidade }}</div>

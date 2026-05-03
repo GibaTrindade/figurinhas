@@ -5,6 +5,7 @@ from .models import (
     ColecaoFigurinha,
     Figurinha,
     ItemTroca,
+    SecaoEspecial,
     Selecao,
     Troca,
 )
@@ -23,13 +24,20 @@ class CategoriaFigurinhaAdmin(admin.ModelAdmin):
     search_fields = ('nome',)
 
 
+@admin.register(SecaoEspecial)
+class SecaoEspecialAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'codigo_album', 'cor', 'ordem')
+    list_editable = ('ordem',)
+    search_fields = ('nome', 'codigo_album')
+
+
 @admin.register(Figurinha)
 class FigurinhaAdmin(admin.ModelAdmin):
-    list_display = ('numero', 'nome', 'selecao', 'categoria', 'especial', 'ordem')
-    list_filter = ('selecao', 'categoria', 'especial')
+    list_display = ('numero', 'nome', 'selecao', 'secao_especial', 'categoria', 'especial', 'ordem')
+    list_filter = ('selecao', 'secao_especial', 'categoria', 'especial')
     list_editable = ('ordem',)
-    search_fields = ('numero', 'nome', 'selecao__nome')
-    autocomplete_fields = ('selecao', 'categoria')
+    search_fields = ('numero', 'nome', 'selecao__nome', 'secao_especial__nome')
+    autocomplete_fields = ('selecao', 'secao_especial', 'categoria')
 
 
 @admin.register(ColecaoFigurinha)

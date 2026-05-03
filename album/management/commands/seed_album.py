@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from album.models import CategoriaFigurinha, Figurinha, Selecao
+from album.models import CategoriaFigurinha, Figurinha, SecaoEspecial, Selecao
 
 
 class Command(BaseCommand):
@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         categorias = {}
-        for nome in ['Escudo', 'Time', 'Jogador']:
+        for nome in ['Escudo', 'Time', 'Jogador', 'FWC', 'Coca-Cola']:
             categorias[nome], _ = CategoriaFigurinha.objects.get_or_create(nome=nome)
 
         CategoriaFigurinha.objects.exclude(nome__in=categorias).delete()
@@ -99,6 +99,7 @@ class Command(BaseCommand):
                     defaults={
                         'nome': figurinha_nome,
                         'selecao': selecao,
+                        'secao_especial': None,
                         'categoria': categorias[categoria_nome],
                         'descricao': 'Figurinha ficticia para testar o MVP.',
                         'especial': especial,
@@ -107,4 +108,29 @@ class Command(BaseCommand):
                 )
                 numero += 1
 
-        self.stdout.write(self.style.SUCCESS('Dados iniciais criados com 48 selecoes e 960 figurinhas.'))
+        especiais = [
+            ('FWC', 'FWC', '#244a9b', categorias['FWC'], 19),
+            ('Coca-Cola', 'CC', '#d71920', categorias['Coca-Cola'], 12),
+            ('Panini', 'PAN', '#f2c300', categorias['FWC'], 1),
+        ]
+        for ordem_secao, (nome, codigo, cor, categoria, total) in enumerate(especiais, start=1):
+            secao, _ = SecaoEspecial.objects.update_or_create(
+                codigo_album=codigo,
+                defaults={'nome': nome, 'cor': cor, 'ordem': ordem_secao},
+            )
+            for posicao in range(1, total + 1):
+                Figurinha.objects.update_or_create(
+                    numero=numero,
+                    defaults={
+                        'nome': f'{codigo} {posicao:02d}',
+                        'selecao': None,
+                        'secao_especial': secao,
+                        'categoria': categoria,
+                        'descricao': 'Figurinha especial ficticia para testar o MVP.',
+                        'especial': True,
+                        'ordem': posicao,
+                    },
+                )
+                numero += 1
+
+        self.stdout.write(self.style.SUCCESS('Dados iniciais criados com selecoes, FWC, CC e Panini.'))

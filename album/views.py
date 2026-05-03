@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 
 from .forms import ObservacaoFigurinhaForm, RegistroForm, TrocaForm
-from .models import ColecaoFigurinha, Figurinha, ItemTroca, Selecao, Troca
+from .models import ColecaoFigurinha, Figurinha, ItemTroca, SecaoEspecial, Selecao, Troca
 from .services import ajustar_quantidade, dados_figurinha, mapa_colecao, resumo_usuario
 
 
@@ -101,9 +101,38 @@ def selecao_detail(request, pk):
 
 
 @login_required
+def secao_especial_detail(request, codigo):
+    secao = get_object_or_404(SecaoEspecial, codigo_album=codigo.upper())
+    status = request.GET.get('status', 'todas')
+    figurinhas = Figurinha.objects.filter(secao_especial=secao).select_related('categoria', 'secao_especial')
+    colecoes = mapa_colecao(request.user, figurinhas)
+    cards = [dados_figurinha(request.user, figurinha, colecoes.get(figurinha.id)) for figurinha in figurinhas]
+
+    if status == 'tenho':
+        cards = [card for card in cards if card['quantidade'] >= 1]
+    elif status == 'faltam':
+        cards = [card for card in cards if card['quantidade'] == 0]
+    elif status == 'repetidas':
+        cards = [card for card in cards if card['quantidade'] > 1]
+
+    total = Figurinha.objects.filter(secao_especial=secao).count()
+    tenho = ColecaoFigurinha.objects.filter(user=request.user, figurinha__secao_especial=secao, quantidade__gte=1).count()
+    percentual = round((tenho / total) * 100) if total else 0
+
+    return render(request, 'album/secao_especial_detail.html', {
+        'secao': secao,
+        'cards': cards,
+        'status_atual': status,
+        'total': total,
+        'tenho': tenho,
+        'percentual': percentual,
+    })
+
+
+@login_required
 def figurinhas_faltantes(request):
     colecionadas = ColecaoFigurinha.objects.filter(user=request.user, quantidade__gte=1).values('figurinha_id')
-    figurinhas = Figurinha.objects.exclude(id__in=colecionadas).select_related('selecao', 'categoria')
+    figurinhas = Figurinha.objects.filter(selecao__isnull=False).exclude(id__in=colecionadas).select_related('selecao', 'categoria')
     grupos = defaultdict(list)
     for figurinha in figurinhas:
         grupos[figurinha.selecao].append(figurinha)
@@ -115,6 +144,7 @@ def figurinhas_faltantes(request):
 def figurinhas_repetidas(request):
     colecoes = ColecaoFigurinha.objects.filter(user=request.user, quantidade__gt=1).select_related(
         'figurinha__selecao',
+        'figurinha__secao_especial',
         'figurinha__categoria',
     )
     cards = [dados_figurinha(request.user, colecao.figurinha, colecao) for colecao in colecoes]
@@ -123,7 +153,7 @@ def figurinhas_repetidas(request):
 
 @login_required
 def figurinha_detail(request, pk):
-    figurinha = get_object_or_404(Figurinha.objects.select_related('selecao', 'categoria'), pk=pk)
+    figurinha = get_object_or_404(Figurinha.objects.select_related('selecao', 'secao_especial', 'categoria'), pk=pk)
     colecao, _ = ColecaoFigurinha.objects.get_or_create(user=request.user, figurinha=figurinha)
 
     if request.method == 'POST':

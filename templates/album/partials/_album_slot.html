@@ -10,7 +10,7 @@
             {% endif %}
         {% endif %}
         <span class="album-slot-top">
-            <span>{{ card.figurinha.selecao.codigo_album|default:card.figurinha.selecao.nome|upper }}</span>
+            <span>{{ card.figurinha.codigo_album|upper }}</span>
             <strong>{{ card.figurinha.ordem }}</strong>
         </span>
         <span class="album-slot-mark"></span>
