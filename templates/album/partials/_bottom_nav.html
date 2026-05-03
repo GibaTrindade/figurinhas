@@ -1,0 +1,20 @@
+<nav class="navbar bg-white border-top fixed-bottom bottom-nav">
+    <div class="container app-shell justify-content-around">
+        <a class="nav-link text-center {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">
+            <i class="bi bi-house fs-5 d-block"></i>
+            Inicio
+        </a>
+        <a class="nav-link text-center {% if request.resolver_match.url_name == 'selecoes_list' or request.resolver_match.url_name == 'selecao_detail' %}active{% endif %}" href="{% url 'selecoes_list' %}">
+            <i class="bi bi-shield fs-5 d-block"></i>
+            Selecoes
+        </a>
+        <a class="nav-link text-center {% if request.resolver_match.url_name == 'figurinhas_faltantes' %}active{% endif %}" href="{% url 'figurinhas_faltantes' %}">
+            <i class="bi bi-x-circle fs-5 d-block"></i>
+            Faltantes
+        </a>
+        <a class="nav-link text-center {% if request.resolver_match.url_name == 'figurinhas_repetidas' %}active{% endif %}" href="{% url 'figurinhas_repetidas' %}">
+            <i class="bi bi-arrow-repeat fs-5 d-block"></i>
+            Repetidas
+        </a>
+    </div>
+</nav>

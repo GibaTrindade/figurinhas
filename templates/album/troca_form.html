@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Nova troca | Album Copa 2026{% endblock %}
+
+{% block content %}
+<header class="mb-3">
+    <a class="small text-decoration-none" href="{% url 'trocas_list' %}"><i class="bi bi-chevron-left"></i> Trocas</a>
+    <h1 class="h4 mb-1 mt-2">Nova troca</h1>
+    <p class="text-muted mb-0">Registro simples por numero de figurinha.</p>
+</header>
+
+<div class="card app-card">
+    <div class="card-body">
+        <form method="post" class="d-grid gap-3">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger py-2">{{ form.non_field_errors|striptags }}</div>
+            {% endif %}
+            {% for field in form %}
+                <div>
+                    <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+                    {% if field.errors %}<div class="text-danger small mt-1">{{ field.errors|striptags }}</div>{% endif %}
+                </div>
+            {% endfor %}
+            <button class="btn btn-primary btn-lg" type="submit">Salvar troca</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

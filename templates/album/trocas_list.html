@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}Trocas | Album Copa 2026{% endblock %}
+
+{% block content %}
+<header class="mb-3 d-flex justify-content-between align-items-center gap-3">
+    <div>
+        <h1 class="h4 mb-1">Trocas</h1>
+        <p class="text-muted mb-0">Encontre quem tem suas faltantes.</p>
+    </div>
+    <a class="btn btn-primary" href="{% url 'troca_nova' %}"><i class="bi bi-plus-lg"></i></a>
+</header>
+
+<section class="card app-card mb-3">
+    <div class="card-body">
+        <form method="get" class="d-grid gap-2">
+            <label class="form-label fw-semibold" for="selecao">Escolha uma selecao</label>
+            <select class="form-select" id="selecao" name="selecao" onchange="this.form.submit()">
+                <option value="">Selecione</option>
+                {% for selecao in selecoes %}
+                    <option value="{{ selecao.pk }}" {% if selecao_atual.pk == selecao.pk %}selected{% endif %}>
+                        Grupo {{ selecao.grupo }} - {{ selecao.nome }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+</section>
+
+{% if selecao_atual %}
+    <section class="mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h2 class="h6 mb-0">Sugestoes para {{ selecao_atual.nome }}</h2>
+            <span class="badge text-bg-light">{{ faltantes|length }} faltantes</span>
+        </div>
+
+        {% if not faltantes %}
+            <div class="card app-card status-tenho">
+                <div class="card-body text-center fw-semibold">Voce ja tem todas dessa selecao.</div>
+            </div>
+        {% elif sugestoes %}
+            <div class="d-grid gap-3">
+                {% for sugestao in sugestoes %}
+                    <div class="card app-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+                                <div>
+                                    <h3 class="h6 mb-1">{{ sugestao.user.username }}</h3>
+                                    <div class="small text-muted">Tem repetidas que faltam para voce</div>
+                                </div>
+                                <span class="badge text-bg-success">{{ sugestao.figurinhas|length }}</span>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2">
+                                {% for item in sugestao.figurinhas %}
+                                    <span class="badge rounded-pill text-bg-light border">
+                                        {{ item.figurinha.ordem }} <span class="text-muted">troca {{ item.disponivel }}</span>
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="card app-card">
+                <div class="card-body text-center text-muted">Nenhum usuario tem repetidas das suas faltantes dessa selecao.</div>
+            </div>
+        {% endif %}
+    </section>
+{% endif %}
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h2 class="h6 mb-0">Historico</h2>
+</div>
+
+<div class="d-grid gap-3">
+    {% for troca in trocas %}
+        <div class="card app-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between gap-3">
+                    <div>
+                        <h2 class="h6 mb-1">{{ troca.nome_pessoa }}</h2>
+                        <div class="small text-muted">{{ troca.data|date:'d/m/Y' }}</div>
+                    </div>
+                    <span class="badge text-bg-light">{{ troca.itens.count }} itens</span>
+                </div>
+                {% if troca.observacao %}
+                    <p class="small mt-2 mb-0">{{ troca.observacao }}</p>
+                {% endif %}
+                <div class="mt-3 d-grid gap-1">
+                    {% for item in troca.itens.all %}
+                        <div class="small">
+                            <span class="badge {% if item.tipo == 'recebi' %}text-bg-success{% else %}text-bg-secondary{% endif %}">{{ item.get_tipo_display }}</span>
+                            {{ item.figurinha.numero }} - {{ item.figurinha.nome }} x{{ item.quantidade }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="card app-card"><div class="card-body text-center text-muted">Nenhuma troca registrada.</div></div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+<div class="card app-card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="fw-semibold">{{ titulo|default:'Progresso' }}</span>
+            <span class="badge text-bg-primary">{{ percentual }}%</span>
+        </div>
+        <div class="progress" role="progressbar" aria-label="Progresso" aria-valuenow="{{ percentual }}" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar" style="width: {{ percentual }}%"></div>
+        </div>
+        {% if detalhe %}
+            <div class="small text-muted mt-2">{{ detalhe }}</div>
+        {% endif %}
+    </div>
+</div>

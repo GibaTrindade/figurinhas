@@ -1,0 +1,5 @@
+{% if selecao.bandeira_codigo %}
+    <img class="flag-img" src="https://flagcdn.com/w80/{{ selecao.bandeira_codigo }}.png" alt="Bandeira {{ selecao.nome }}" loading="lazy">
+{% else %}
+    <span class="flag-emoji">{{ selecao.bandeira_emoji|default:'🏳' }}</span>
+{% endif %}

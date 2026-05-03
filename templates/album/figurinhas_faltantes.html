@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Faltantes | Album Copa 2026{% endblock %}
+
+{% block content %}
+<header class="mb-3">
+    <h1 class="h4 mb-1">Faltantes</h1>
+    <p class="text-muted mb-0">Figurinhas que ainda nao entraram no album.</p>
+</header>
+
+<div class="d-grid gap-3">
+    {% for selecao, figurinhas in grupos.items %}
+        <section class="card app-card">
+            <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    {% include 'album/partials/_bandeira.html' with selecao=selecao %}
+                    <h2 class="h6 mb-0">{{ selecao.nome }}</h2>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for figurinha in figurinhas %}
+                        <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center px-0" href="{% url 'figurinha_detail' figurinha.pk %}">
+                            <span><strong>{{ figurinha.numero }}</strong> {{ figurinha.nome }}</span>
+                            <span class="badge text-bg-light">{{ figurinha.categoria.nome }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% empty %}
+        <div class="card app-card status-tenho">
+            <div class="card-body text-center fw-semibold">Nenhuma faltante por aqui.</div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

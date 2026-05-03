@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Repetidas | Album Copa 2026{% endblock %}
+
+{% block content %}
+<header class="mb-3">
+    <h1 class="h4 mb-1">Repetidas</h1>
+    <p class="text-muted mb-0">Boas candidatas para troca.</p>
+</header>
+
+<div class="d-grid gap-3">
+    {% for card in cards %}
+        <div class="card app-card status-repetida">
+            <div class="card-body">
+                <div class="d-flex justify-content-between gap-3">
+                    <div>
+                        <a class="fw-bold text-dark text-decoration-none" href="{% url 'figurinha_detail' card.figurinha.pk %}">
+                            {{ card.figurinha.numero }} - {{ card.figurinha.nome }}
+                        </a>
+                        <div class="small text-muted">{{ card.figurinha.selecao.nome }} · {{ card.figurinha.categoria.nome }}</div>
+                    </div>
+                    <div class="text-end">
+                        <div class="fw-bold">Qtd {{ card.quantidade }}</div>
+                        <div class="small">Troca {{ card.disponivel_troca }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="card app-card">
+            <div class="card-body text-center text-muted">Nenhuma repetida ainda.</div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

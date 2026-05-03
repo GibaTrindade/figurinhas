@@ -1,0 +1,16 @@
+<form method="post" action="{% url 'alterar_quantidade' card.figurinha.pk %}" class="album-slot-form">
+    {% csrf_token %}
+    <input type="hidden" name="delta" value="1">
+    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+    <button class="album-slot {% if card.figurinha.ordem == 1 or card.figurinha.ordem == 13 %}album-slot-featured{% endif %} {% if card.quantidade > 0 %}album-slot-owned{% endif %}" type="submit" aria-label="Marcar figurinha {{ card.figurinha.ordem }}">
+        {% if card.quantidade > 0 %}
+            <span class="album-slot-badge">{{ card.quantidade }}</span>
+        {% endif %}
+        <span class="album-slot-top">
+            <span>{{ card.figurinha.selecao.codigo_album|default:card.figurinha.selecao.nome|upper }}</span>
+            <strong>{{ card.figurinha.ordem }}</strong>
+        </span>
+        <span class="album-slot-mark"></span>
+        <span class="album-slot-name">{{ card.figurinha.nome }}</span>
+    </button>
+</form>

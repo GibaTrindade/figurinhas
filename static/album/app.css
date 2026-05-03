@@ -1,0 +1,229 @@
+:root {
+    --app-bg: #f5f7fb;
+    --status-tenho: #d7f5df;
+    --status-falta: #ffe0e0;
+    --status-repetida: #fff1b8;
+}
+
+body {
+    background: var(--app-bg);
+}
+
+.app-shell {
+    max-width: 720px;
+}
+
+.app-card {
+    border: 1px solid rgba(20, 32, 55, .08);
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(20, 32, 55, .06);
+}
+
+.bottom-nav {
+    box-shadow: 0 -8px 24px rgba(20, 32, 55, .08);
+}
+
+.bottom-nav .nav-link {
+    color: #6c757d;
+    font-size: .76rem;
+    min-width: 68px;
+}
+
+.bottom-nav .nav-link.active {
+    color: #0d6efd;
+    font-weight: 700;
+}
+
+.status-tenho {
+    background: var(--status-tenho);
+}
+
+.status-falta {
+    background: var(--status-falta);
+}
+
+.status-repetida {
+    background: var(--status-repetida);
+}
+
+.figurinha-numero {
+    width: 52px;
+    min-width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+}
+
+.flag-img {
+    width: 54px;
+    height: 38px;
+    object-fit: cover;
+    border-radius: 9px;
+    box-shadow: 0 2px 8px rgba(20, 32, 55, .15);
+}
+
+.flag-emoji {
+    display: inline-block;
+    min-width: 54px;
+    font-size: 2.25rem;
+    text-align: center;
+}
+
+.tap-button {
+    min-width: 46px;
+    min-height: 42px;
+}
+
+.form-control,
+.form-select {
+    border-radius: 14px;
+    min-height: 46px;
+}
+
+textarea.form-control {
+    min-height: 92px;
+}
+
+.album-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.album-slot-form {
+    margin: 0;
+}
+
+.album-slot {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border: 2px solid rgba(82, 92, 105, .28);
+    border-radius: 8px;
+    background: #d9dee5;
+    color: #46515f;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px 10px 10px;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(20, 32, 55, .08);
+}
+
+.album-slot::before,
+.album-slot::after {
+    content: "";
+    position: absolute;
+    left: 16%;
+    right: 16%;
+    height: 31%;
+    background: rgba(255, 255, 255, .88);
+    z-index: 0;
+}
+
+.album-slot::before {
+    top: 12%;
+    border-radius: 999px 999px 6px 6px;
+}
+
+.album-slot::after {
+    bottom: 12%;
+    border-radius: 6px 6px 999px 999px;
+}
+
+.album-slot > * {
+    position: relative;
+    z-index: 1;
+}
+
+.album-slot-owned {
+    background: #d7f5df;
+    border-color: #44b36a;
+}
+
+.album-slot-featured {
+    background: #d9dee5;
+    border-color: #8e2f62;
+    color: #5b0831;
+}
+
+.album-slot-featured::before,
+.album-slot-featured::after {
+    background: rgba(255, 255, 255, .94);
+}
+
+.album-slot-featured .album-slot-top,
+.album-slot-featured .album-slot-name {
+    color: #5b0831;
+}
+
+.album-slot-featured .album-slot-top strong {
+    color: #5b0831;
+}
+
+.album-slot-featured.album-slot-owned {
+    background: linear-gradient(135deg, #d7f5df 0%, #d7f5df 58%, #5b0831 58%, #5b0831 100%);
+    border-color: #44b36a;
+}
+
+.album-slot-featured.album-slot-owned .album-slot-top {
+    color: #245b3d;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .75);
+}
+
+.album-slot-featured.album-slot-owned .album-slot-top strong {
+    color: #245b3d;
+}
+
+.album-slot-badge {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    min-width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: #198754;
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: .85rem;
+    box-shadow: 0 2px 8px rgba(25, 135, 84, .35);
+}
+
+.album-slot-top {
+    display: grid;
+    gap: 1px;
+    font-weight: 800;
+    letter-spacing: 0;
+    line-height: 1.05;
+}
+
+.album-slot-top strong {
+    font-size: 1.55rem;
+}
+
+.album-slot-mark {
+    flex: 1;
+}
+
+.album-slot-name {
+    min-height: 34px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    font-size: .72rem;
+    font-weight: 800;
+    line-height: 1.05;
+    text-transform: uppercase;
+    word-break: break-word;
+}
+
+@media (min-width: 520px) {
+    .album-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}

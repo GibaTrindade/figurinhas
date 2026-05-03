@@ -1,0 +1,43 @@
+<div class="card app-card status-{{ card.status }}">
+    <div class="card-body">
+        <div class="d-flex gap-3">
+            <a class="figurinha-numero bg-white text-decoration-none text-dark" href="{% url 'figurinha_detail' card.figurinha.pk %}">
+                {{ card.figurinha.numero }}
+            </a>
+            <div class="flex-grow-1">
+                <div class="d-flex justify-content-between gap-2">
+                    <div>
+                        <a class="fw-bold text-dark text-decoration-none" href="{% url 'figurinha_detail' card.figurinha.pk %}">
+                            {{ card.figurinha.nome }}
+                        </a>
+                        <div class="small text-muted">{{ card.figurinha.categoria.nome }}</div>
+                    </div>
+                    <span class="badge rounded-pill text-bg-light align-self-start">
+                        {% if card.status == 'tenho' %}Tenho{% elif card.status == 'repetida' %}Repetida{% else %}Falta{% endif %}
+                    </span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <span class="small fw-semibold">Qtd: {{ card.quantidade }}</span>
+                    <div class="d-flex gap-2">
+                        <form method="post" action="{% url 'alterar_quantidade' card.figurinha.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="delta" value="-1">
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <button class="btn btn-light tap-button" type="submit" aria-label="Diminuir">
+                                <i class="bi bi-dash-lg"></i>
+                            </button>
+                        </form>
+                        <form method="post" action="{% url 'alterar_quantidade' card.figurinha.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="delta" value="1">
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <button class="btn btn-primary tap-button" type="submit" aria-label="Aumentar">
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
