@@ -5,20 +5,42 @@
 {% block content %}
 <header class="mb-3">
     <a class="small text-decoration-none" href="{% url 'selecoes_list' %}"><i class="bi bi-chevron-left"></i> Selecoes</a>
-    <div class="d-flex gap-3 align-items-center mt-2">
-        {% include 'album/partials/_bandeira.html' with selecao=selecao %}
-        <div>
-            <h1 class="h4 mb-1">{{ selecao.nome }}</h1>
-            <p class="text-muted mb-0">Grupo {{ selecao.grupo }} · {{ tenho }} de {{ total }} figurinhas</p>
+    <div class="selection-pager mt-2">
+        {% if selecao_anterior %}
+            <a class="btn btn-outline-primary selection-pager-btn selection-pager-flag" style="--flag-url: url('https://flagcdn.com/w160/{{ selecao_anterior.bandeira_codigo }}.png')" href="{% url 'selecao_detail' selecao_anterior.pk %}" aria-label="Selecao anterior">
+                <span class="selection-pager-symbol">&lt;</span>
+            </a>
+        {% else %}
+            <span class="btn btn-outline-secondary selection-pager-btn disabled">
+                <span class="selection-pager-symbol">&lt;</span>
+            </span>
+        {% endif %}
+
+        <div class="selection-current">
+            {% include 'album/partials/_bandeira.html' with selecao=selecao %}
+            <div class="min-w-0">
+                <h1 class="h4 mb-1">{{ selecao.nome }}</h1>
+                <p class="text-muted mb-0">Grupo {{ selecao.grupo }} - {{ tenho }} de {{ total }} figurinhas</p>
+            </div>
         </div>
+
+        {% if proxima_selecao %}
+            <a class="btn btn-outline-primary selection-pager-btn selection-pager-flag" style="--flag-url: url('https://flagcdn.com/w160/{{ proxima_selecao.bandeira_codigo }}.png')" href="{% url 'selecao_detail' proxima_selecao.pk %}" aria-label="Proxima selecao">
+                <span class="selection-pager-symbol">&gt;</span>
+            </a>
+        {% else %}
+            <span class="btn btn-outline-secondary selection-pager-btn disabled">
+                <span class="selection-pager-symbol">&gt;</span>
+            </span>
+        {% endif %}
     </div>
 </header>
 
 {% include 'album/partials/_progresso_card.html' with titulo='Progresso da selecao' percentual=percentual %}
 
-<div class="d-flex gap-2 overflow-auto py-3">
+<div class="d-flex gap-2 overflow-auto py-3 album-toolbar">
     <a class="btn btn-sm {% if status_atual == 'todas' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?{% if categoria_atual %}categoria={{ categoria_atual }}&{% endif %}status=todas">Todas</a>
-    <a class="btn btn-sm {% if status_atual == 'tenho' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?{% if categoria_atual %}categoria={{ categoria_atual }}&{% endif %}status=tenho">Tenho</a>
+    <a class="btn btn-sm {% if status_atual == 'tenho' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?{% if categoria_atual %}categoria={{ categoria_atual }}&{% endif %}status=tenho">Coladas</a>
     <a class="btn btn-sm {% if status_atual == 'faltam' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?{% if categoria_atual %}categoria={{ categoria_atual }}&{% endif %}status=faltam">Faltam</a>
     <a class="btn btn-sm {% if status_atual == 'repetidas' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?{% if categoria_atual %}categoria={{ categoria_atual }}&{% endif %}status=repetidas">Repetidas</a>
 </div>

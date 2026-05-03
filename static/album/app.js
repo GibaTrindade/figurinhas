@@ -2,17 +2,31 @@ const slotTimers = new WeakMap();
 
 function updateSlot(slot, quantidade) {
     slot.classList.toggle('album-slot-owned', quantidade > 0);
+    const repetidas = Math.max(quantidade - 1, 0);
 
-    let badge = slot.querySelector('.album-slot-badge');
+    let check = slot.querySelector('.album-slot-check');
     if (quantidade > 0) {
-        if (!badge) {
-            badge = document.createElement('span');
-            badge.className = 'album-slot-badge';
-            slot.prepend(badge);
+        if (!check) {
+            check = document.createElement('span');
+            check.className = 'album-slot-check';
+            check.innerHTML = '<i class="bi bi-check-lg"></i>';
+            slot.prepend(check);
         }
-        badge.textContent = quantidade;
-    } else if (badge) {
-        badge.remove();
+    } else if (check) {
+        check.remove();
+    }
+
+    let repeats = slot.querySelector('.album-slot-repeats');
+    if (repetidas > 0) {
+        if (!repeats) {
+            repeats = document.createElement('span');
+            repeats.className = 'album-slot-repeats';
+            const mark = slot.querySelector('.album-slot-mark');
+            slot.insertBefore(repeats, mark);
+        }
+        repeats.textContent = `Repetidas: ${repetidas}`;
+    } else if (repeats) {
+        repeats.remove();
     }
 }
 

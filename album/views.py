@@ -48,7 +48,7 @@ def selecoes_list(request):
             ),
             distinct=True,
         ),
-    )
+    ).order_by('grupo', 'ordem', 'nome')
     cards = []
     for selecao in selecoes:
         percentual = round((selecao.tenho / selecao.total) * 100) if selecao.total else 0
@@ -81,9 +81,15 @@ def selecao_detail(request, pk):
     tenho = ColecaoFigurinha.objects.filter(user=request.user, figurinha__selecao=selecao, quantidade__gte=1).count()
     percentual = round((tenho / total) * 100) if total else 0
     categorias = selecao.figurinhas.order_by('categoria__nome').values('categoria_id', 'categoria__nome').distinct()
+    selecoes_ordenadas = list(Selecao.objects.order_by('grupo', 'ordem', 'nome'))
+    indice_atual = next((indice for indice, item in enumerate(selecoes_ordenadas) if item.pk == selecao.pk), 0)
+    selecao_anterior = selecoes_ordenadas[indice_atual - 1] if indice_atual > 0 else None
+    proxima_selecao = selecoes_ordenadas[indice_atual + 1] if indice_atual < len(selecoes_ordenadas) - 1 else None
 
     return render(request, 'album/selecao_detail.html', {
         'selecao': selecao,
+        'selecao_anterior': selecao_anterior,
+        'proxima_selecao': proxima_selecao,
         'cards': cards,
         'status_atual': status,
         'categoria_atual': categoria_id or '',
@@ -164,7 +170,7 @@ def alterar_quantidade(request, pk):
 @login_required
 def trocas_list(request):
     selecao_id = request.GET.get('selecao')
-    selecoes = Selecao.objects.all()
+    selecoes = Selecao.objects.order_by('grupo', 'ordem', 'nome')
     selecao_atual = None
     faltantes = []
     sugestoes = []

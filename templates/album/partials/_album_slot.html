@@ -4,7 +4,10 @@
     <input type="hidden" name="next" value="{{ request.get_full_path }}">
     <button class="album-slot {% if card.figurinha.ordem == 1 or card.figurinha.ordem == 13 %}album-slot-featured{% endif %} {% if card.quantidade > 0 %}album-slot-owned{% endif %}" type="submit" aria-label="Marcar figurinha {{ card.figurinha.ordem }}">
         {% if card.quantidade > 0 %}
-            <span class="album-slot-badge">{{ card.quantidade }}</span>
+            <span class="album-slot-check"><i class="bi bi-check-lg"></i></span>
+            {% if card.quantidade > 1 %}
+                <span class="album-slot-repeats">Repetidas: {{ card.disponivel_troca }}</span>
+            {% endif %}
         {% endif %}
         <span class="album-slot-top">
             <span>{{ card.figurinha.selecao.codigo_album|default:card.figurinha.selecao.nome|upper }}</span>

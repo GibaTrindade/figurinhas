@@ -103,6 +103,87 @@ textarea.form-control {
     gap: 12px;
 }
 
+.album-page-btn {
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    overflow: hidden;
+    flex: 0 0 auto;
+}
+
+.album-page-btn span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.selection-pager {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    gap: 10px;
+    align-items: center;
+}
+
+.selection-pager-btn {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 12px;
+}
+
+.selection-pager-flag {
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(rgba(255, 255, 255, .76), rgba(255, 255, 255, .76)), var(--flag-url);
+    background-size: cover;
+    background-position: center;
+    border-color: rgba(13, 110, 253, .38);
+}
+
+.selection-pager-symbol {
+    position: relative;
+    z-index: 1;
+    color: #0d6efd;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, .85);
+    font-size: 1.55rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.selection-pager-flag:hover,
+.selection-pager-flag:focus {
+    background-image: linear-gradient(rgba(255, 255, 255, .62), rgba(255, 255, 255, .62)), var(--flag-url);
+}
+
+.selection-current {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: left;
+}
+
+.selection-current h1,
+.selection-current p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.min-w-0 {
+    min-width: 0;
+}
+
+.album-toolbar .btn {
+    flex: 0 0 auto;
+}
+
 .album-slot-form {
     margin: 0;
 }
@@ -189,7 +270,7 @@ textarea.form-control {
     color: #245b3d;
 }
 
-.album-slot-badge {
+.album-slot-check {
     position: absolute;
     top: 7px;
     right: 7px;
@@ -203,6 +284,23 @@ textarea.form-control {
     font-weight: 800;
     font-size: .85rem;
     box-shadow: 0 2px 8px rgba(25, 135, 84, .35);
+}
+
+.album-slot-repeats {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    transform: translate(-50%, -50%);
+    width: max-content;
+    max-width: calc(100% - 18px);
+    border-radius: 999px;
+    background: #ffc107;
+    color: #3f2f00;
+    padding: 5px 9px;
+    font-size: .72rem;
+    font-weight: 800;
+    line-height: 1;
+    box-shadow: 0 2px 8px rgba(120, 85, 0, .25);
 }
 
 .album-slot-top {
