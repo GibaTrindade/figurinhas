@@ -5,13 +5,14 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import Count, Q
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 
 from .forms import ObservacaoFigurinhaForm, RegistroForm, TrocaForm
 from .models import ColecaoFigurinha, Figurinha, ItemTroca, SecaoEspecial, Selecao, Troca
+from .pdf_export import exportar_faltantes_pdf
 from .services import ajustar_quantidade, dados_figurinha, mapa_colecao, resumo_usuario
 
 
@@ -149,6 +150,14 @@ def figurinhas_repetidas(request):
     )
     cards = [dados_figurinha(request.user, colecao.figurinha, colecao) for colecao in colecoes]
     return render(request, 'album/figurinhas_repetidas.html', {'cards': cards})
+
+
+@login_required
+def exportar_faltantes(request):
+    pdf = exportar_faltantes_pdf(request.user)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="faltantes-album-copa-2026.pdf"'
+    return response
 
 
 @login_required
