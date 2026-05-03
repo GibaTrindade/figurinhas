@@ -19,6 +19,17 @@ body {
     box-shadow: 0 8px 24px rgba(20, 32, 55, .06);
 }
 
+.nav-logo {
+    border-radius: 9px;
+    object-fit: contain;
+}
+
+.login-logo {
+    width: min(260px, 72vw);
+    height: auto;
+    filter: drop-shadow(0 10px 18px rgba(20, 32, 55, .16));
+}
+
 .bottom-nav {
     box-shadow: 0 -8px 24px rgba(20, 32, 55, .08);
 }

@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Entrar | Album Copa 2026{% endblock %}
 
 {% block content %}
 <section class="pt-2">
-    <h1 class="h4 mb-1">Entrar</h1>
-    <p class="text-muted mb-3">Acesse sua colecao de figurinhas.</p>
+    <div class="login-brand text-center mb-3">
+        <img class="login-logo" src="{% static 'album/icons/android-chrome-512x512.png' %}" alt="Figurinhas 2026">
+        <h1 class="h4 mb-1 mt-2">Entrar</h1>
+        <p class="text-muted mb-0">Acesse sua colecao de figurinhas.</p>
+    </div>
 
     <div class="card app-card">
         <div class="card-body">

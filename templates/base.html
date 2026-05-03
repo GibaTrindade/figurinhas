@@ -30,7 +30,10 @@
 <body>
     <nav class="navbar navbar-expand bg-white border-bottom sticky-top">
         <div class="container app-shell py-1">
-            <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">Album Copa 2026</a>
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="{% url 'dashboard' %}">
+                <img class="nav-logo" src="{% static 'album/icons/favicon.png' %}" alt="" width="34" height="34">
+                <span>Album Copa 2026</span>
+            </a>
             <div class="ms-auto d-flex align-items-center gap-2">
                 {% if user.is_authenticated %}
                     <span class="small text-muted d-none d-sm-inline">{{ user.username }}</span>

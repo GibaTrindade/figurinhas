@@ -11,15 +11,27 @@
         <div class="card-body">
             <form method="post" class="d-grid gap-3">
                 {% csrf_token %}
-                {% for field in form %}
-                    <div>
-                        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        {{ field }}
-                        {% if field.errors %}
-                            <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
+                <div>
+                    <label class="form-label" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="text-danger small mt-1">{{ form.username.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+                <div>
+                    <label class="form-label" for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <div class="text-danger small mt-1">{{ form.password1.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+                <div>
+                    <label class="form-label" for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <div class="text-danger small mt-1">{{ form.password2.errors|striptags }}</div>
+                    {% endif %}
+                </div>
                 <button class="btn btn-primary btn-lg" type="submit">Registrar</button>
             </form>
         </div>
