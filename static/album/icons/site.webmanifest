@@ -1,0 +1,19 @@
+{
+  "name": "Figurinhas 2026",
+  "short_name": "Figurinhas",
+  "icons": [
+    {
+      "src": "/static/album/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/album/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#245b3d",
+  "background_color": "#545b54",
+  "display": "standalone"
+}

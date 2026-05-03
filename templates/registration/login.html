@@ -26,6 +26,12 @@
             </form>
         </div>
     </div>
-    <a class="btn btn-link w-100 mt-3" href="{% url 'register' %}">Criar uma conta</a>
+    <div class="card app-card mt-3">
+        <div class="card-body text-center">
+            <div class="fw-semibold mb-1">Ainda nao tem conta?</div>
+            <div class="small text-muted mb-3">Crie seu usuario para salvar sua propria colecao.</div>
+            <a class="btn btn-outline-primary w-100" href="{% url 'register' %}">Registrar novo usuario</a>
+        </div>
+    </div>
 </section>
 {% endblock %}
